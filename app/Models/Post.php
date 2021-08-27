@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Mail;
 class Post extends Model
 {
     use HasFactory;
@@ -23,11 +23,14 @@ class Post extends Model
     {
         parent::boot();
 
+
+
         self::created(function($post)
         {
           $users = $post->website->users;
           foreach($users as $user) {
             // Send Subscribe Notification to each user
+            Mail::to($user->email)->queue(new \App\Mail\Subscribe($post));
           }
         });
     }
