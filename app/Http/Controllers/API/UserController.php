@@ -4,11 +4,11 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\BaseController as BaseController;
-use App\Models\Post;
+use App\Models\User;
 use Validator;
-use App\Http\Resources\Post as PostResource;
+use App\Http\Resources\User as UserResource;
 
-class PostController extends BaseController
+class UserController extends BaseController
 {
     /**
      * Display a listing of the resource.
@@ -17,9 +17,9 @@ class PostController extends BaseController
      */
     public function index()
     {
-        $posts = Post::all();
+        $users = User::all();
     
-        return $this->sendResponse(PostResource::collection($posts), 'Posts retrieved successfully.');
+        return $this->sendResponse(UserResource::collection($users), 'Users retrieved successfully.');
     }
     /**
      * Store a newly created resource in storage.
@@ -32,17 +32,17 @@ class PostController extends BaseController
         $input = $request->all();
    
         $validator = Validator::make($input, [
-            'website_id' => 'required',
-            'title' => 'required',
-            'description' => 'required'
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'required'
         ]);
    
         if($validator->fails()){
             return $this->sendError('Validation Error.', $validator->errors());       
         }
    
-        $post = Post::create($input);
+        $User = User::create($input);
    
-        return $this->sendResponse(new PostResource($post), 'Post created successfully.');
+        return $this->sendResponse(new UserResource($User), 'User created successfully.');
     }
 }

@@ -16,22 +16,20 @@ class Post extends Model
 
     public function website()
     {
-        return $this->belongsTo(Website::class);
+      return $this->belongsTo(Website::class);
     }
 
     public static function boot()
     {
-        parent::boot();
+      parent::boot();
 
-
-
-        self::created(function($post)
-        {
-          $users = $post->website->users;
-          foreach($users as $user) {
-            // Send Subscribe Notification to each user
-            Mail::to($user->email)->queue(new \App\Mail\Subscribe($post));
-          }
-        });
+      self::created(function($post)
+      {
+        $users = $post->website->users;
+        foreach($users as $user) {
+          // Send Subscribe Notification to each user
+          Mail::to($user->email)->queue(new \App\Mail\Subscribe($post));
+        }
+      });
     }
 }

@@ -22,6 +22,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::resource('posts', PostController::class);
-Route::resource('websites', PostController::class);
-Route::resource('users', PostController::class);
+Route::resource('websites', WebsiteController::class);
+Route::resource('users', UserController::class);
 Route::post('subscribe', [SubscribeController::class, 'store']);
